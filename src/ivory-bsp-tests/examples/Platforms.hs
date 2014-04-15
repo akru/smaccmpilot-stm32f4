@@ -58,6 +58,18 @@ instance ColoredLEDs Open407VC where
 instance BoardHSE Open407VC where
   hseFreq _ = f8MHz
 
+---------- Nucleo F401RE ------------------------------------------------------
+data NucleoF401RE = NucleoF401RE
+
+stm32f4SignalableInstance ''NucleoF401RE
+
+instance ColoredLEDs NucleoF401RE where
+  redLED _  = LED pinA5  ActiveHigh -- XXX
+  blueLED _ = LED pinB13 ActiveHigh -- XXX
+
+instance BoardHSE NucleoF401RE where
+  hseFreq _ = f8MHz
+
 
 --------- Platform lookup by name ---------------------------------------------
 
@@ -68,5 +80,6 @@ coloredLEDPlatforms app =
     ,("px4fmu17_ioar",     Twr (app :: Tower PX4FMUv17 ()))
     ,("stm32f4discovery",  Twr (app :: Tower F4Discovery ()))
     ,("open407vc",         Twr (app :: Tower Open407VC ()))
+    ,("nucleo_f401re",     Twr (app :: Tower NucleoF401RE ()))
     ]
 

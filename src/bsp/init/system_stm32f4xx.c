@@ -354,10 +354,15 @@ static void SetSysClock(void)
 /*            PLL (clocked by HSE) used as System clock source                */
 /******************************************************************************/
   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
-  
+
+#ifdef CONFIG_STM32F4_PLL_USE_HSI
+  /* Enable HSE Bypass */
+  RCC->CR |= ((uint32_t)RCC_CR_HSEBYP);
+#else
   /* Enable HSE */
   RCC->CR |= ((uint32_t)RCC_CR_HSEON);
- 
+#endif
+
   /* Wait till HSE is ready and if Time out is reached exit */
   do
   {
@@ -390,8 +395,13 @@ static void SetSysClock(void)
     RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
 
     /* Configure the main PLL */
+#ifdef CONFIG_STM32F4_PLL_USE_HSI
+    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+                   (RCC_PLLCFGR_PLLSRC_HSI) | (PLL_Q << 24);
+#else
     RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
                    (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+#endif // CONFIG_STM32F4_PLL_USE_HSI
 
     /* Enable the main PLL */
     RCC->CR |= RCC_CR_PLLON;

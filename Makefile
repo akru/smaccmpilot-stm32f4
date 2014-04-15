@@ -72,6 +72,9 @@ discovery: allplatforms
 open407vc: PLATFORMS = open407vc
 open407vc: allplatforms
 
+nucleo_f401re_freertos: PLATFORMS = nucleo_f401re_freertos
+nucleo_f401re_freertos: allplatforms
+
 # Target defined in mk/main.mk
 cbmc: TARGET = cbmc
 cbmc: default
