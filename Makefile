@@ -53,6 +53,9 @@ allplatforms:
 px4fmu17_ioar_freertos: PLATFORMS = px4fmu17_ioar_freertos
 px4fmu17_ioar_freertos: allplatforms
 
+px4fmu17_ioar_grtos: PLATFORMS = px4fmu17_ioar_grtos
+px4fmu17_ioar_grtos: allplatforms
+
 px4fmu17_bare_freertos: PLATFORMS = px4fmu17_bare_freertos
 px4fmu17_bare_freertos: allplatforms
 

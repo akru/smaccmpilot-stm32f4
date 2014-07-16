@@ -35,9 +35,16 @@ $(1)_REAL_IMG       := $$(addprefix $$(IMG_DIR)/,$$($(1)_IMG))
 $(1)_REAL_BIN       := $$($(1)_REAL_IMG).bin
 $(1)_REAL_LDS       := $$($(1)_REAL_IMG).lds
 $(1)_REAL_LIBRARIES := $$(addprefix $$(LIB_DIR)/,$$($(1)_LIBRARIES))
+ifeq ($$($(CONFIG_PLATFORM)_TOWER_OS),freertos)
+$(1)_REAL_LIBRARIES += $$(addprefix $$(LIB_DIR)/,libFreeRTOS.a)
+endif
 
 $$($(1)_REAL_IMG): CFLAGS   += $$($(1)_CFLAGS)
 $$($(1)_REAL_IMG): CXXFLAGS += $$($(1)_CXXFLAGS)
+ifeq ($$($$(CONFIG_PLATFORM)_TOWER_OS),freertos)
+$$($(1)_REAL_IMG): CFLAGS   += $$(FREERTOS_CFLAGS)
+$$($(1)_REAL_IMG): CXXFLAGS += $$(FREERTOS_CFLAGS)
+endif
 $$($(1)_REAL_IMG): LDFLAGS  += $$($(1)_LDFLAGS)
 $$($(1)_REAL_IMG): LDFLAGS  += -Wl,--script=$$($(1)_REAL_LDS)
 $$($(1)_REAL_IMG): LIBS     += $$($(1)_LIBS)

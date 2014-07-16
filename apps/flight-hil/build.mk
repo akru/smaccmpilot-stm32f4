@@ -21,7 +21,6 @@ FLIGHT_HIL_IMG       := flight-hil
 FLIGHT_HIL_INCLUDES  += $(HWF4_INCLUDES)
 FLIGHT_HIL_INCLUDES  += -I$(TOP)/src/standalone_apahrs
 FLIGHT_HIL_INCLUDES  += -I$(TOP)/src/apwrapper/include
-FLIGHT_HIL_INCLUDES  += $(FREERTOS_CFLAGS)
 FLIGHT_HIL_INCLUDES  += $(IVORY_PKG_FLIGHT_HIL_CFLAGS)
 
 # For the cryto lib
@@ -42,11 +41,12 @@ FLIGHT_HIL_REAL_OBJECTS += $(IVORY_PKG_FLIGHT_HIL_OBJECTS)
 FLIGHT_HIL_LIBRARIES    += libapwrapper.a
 FLIGHT_HIL_LIBRARIES    += libstandalone-aphal.a
 FLIGHT_HIL_LIBRARIES    += libstandalone-apahrs.a
-FLIGHT_HIL_LIBRARIES    += libFreeRTOS.a
 FLIGHT_HIL_LIBRARIES    += commsec.a
 
 FLIGHT_HIL_LIBS         += -lm
 
-$(eval $(call when_platforms,px4fmu17_bare_freertos px4fmu17_ioar_freertos \
-				,image,FLIGHT_HIL))
+$(eval $(call when_platforms,px4fmu17_bare_freertos \
+	px4fmu17_ioar_freertos \
+	px4fmu17_ioar_grtos \
+	,image,FLIGHT_HIL))
 

@@ -17,9 +17,6 @@ $(eval $(call when_platforms,px4fmu17_bare_freertos \
 
 COPTER_MOTOR_TEST_IMG          := copter-motor-test
 
-COPTER_MOTOR_TEST_LIBRARIES    += libFreeRTOS.a
-COPTER_MOTOR_TEST_INCLUDES     += $(FREERTOS_CFLAGS)
-
 COPTER_MOTOR_TEST_REAL_OBJECTS += $(IVORY_PKG_COPTER_MOTOR_TEST_OBJECTS)
 COPTER_MOTOR_TEST_LIBS         += -lm
 
@@ -34,6 +31,7 @@ $(eval $(call when_platforms,px4fmu17_bare_freertos \
 
 $(eval $(call when_platforms,px4fmu17_bare_freertos \
 			     px4fmu17_ioar_freertos \
+			     px4fmu17_ioar_grtos \
 				,image,COPTER_MOTOR_TEST))
 
 # vim: set ft=make noet ts=2:

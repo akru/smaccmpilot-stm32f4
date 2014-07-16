@@ -11,15 +11,13 @@
 # Written by Pat Hickey <pat@galois.com>, January 08, 2013
 #
 
-UBLOX_GPS_TEST_PLATFORMS := px4fmu17_bare_freertos px4fmu17_ioar_freertos open407vc
+UBLOX_GPS_TEST_PLATFORMS := px4fmu17_bare_freertos px4fmu17_ioar_freertos \
+	open407vc px4fmu17_ioar_grtos
 
 $(eval $(call when_platforms, $(UBLOX_GPS_TEST_PLATFORMS) \
 				,tower_pkg,IVORY_PKG_UBLOX_GPS_TEST,ublox-gps-test-gen))
 
 UBLOX_GPS_TEST_IMG          := ublox-gps-test
-
-UBLOX_GPS_TEST_LIBRARIES    += libFreeRTOS.a
-UBLOX_GPS_TEST_INCLUDES     += $(FREERTOS_CFLAGS)
 
 UBLOX_GPS_TEST_REAL_OBJECTS += $(IVORY_PKG_UBLOX_GPS_TEST_OBJECTS)
 UBLOX_GPS_TEST_LIBS         += -lm

@@ -13,9 +13,6 @@ $(eval $(call tower_pkg,IVORY_PKG_BSP_SPI_TEST,bsp-spi-test-gen))
 
 BSP_SPI_TEST_IMG          := bsp-spi-test
 
-BSP_SPI_TEST_LIBRARIES    += libFreeRTOS.a
-BSP_SPI_TEST_INCLUDES     += $(FREERTOS_CFLAGS)
-
 BSP_SPI_TEST_REAL_OBJECTS += $(IVORY_PKG_BSP_SPI_TEST_OBJECTS)
 
 BSP_SPI_TEST_INCLUDES     += $(IVORY_PKG_BSP_SPI_TEST_CFLAGS)
@@ -26,4 +23,4 @@ BSP_SPI_TEST_DISABLE_GLOBAL_STARTUP_OBJECTS := 1
 
 $(eval $(call cbmc_pkg,BSP_SPI_TEST,IVORY_PKG_BSP_SPI_TEST))
 
-$(eval $(call when_os,freertos,image,BSP_SPI_TEST))
+$(eval $(call when_os,freertos grtos,image,BSP_SPI_TEST))
