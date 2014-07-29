@@ -68,7 +68,7 @@ hil opts = do
   (params, paramList) <- initTowerParams sysParams
   let snk_params       = portPairSink <$> params
 
-  commsec_mon_result <- channel' (Proxy :: Proxy 2) (Just (ival S.secure))
+  commsec_mon_result <- channel' Nothing (Just (ival S.secure))
 
   -- Instantiate core:
   core_out <- core $ FlightCoreRequires

@@ -70,8 +70,7 @@ gcsTower :: String
 gcsTower name opts istream ostream req prov params
   = do
   streamrate <- channel
-  -- XXX hack to make sure we can send all parameters on "fetch"
-  param_req  <- channel' (Proxy :: Proxy 64) Nothing
+  param_req  <- channel
   (  rx_encrypted -- from Hx to decrypter
    , tx_encrypted -- from encrypter to Hx
    , radio_stat_snk :: ChannelSink (Struct "radio_stat")

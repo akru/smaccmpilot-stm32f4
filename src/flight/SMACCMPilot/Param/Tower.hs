@@ -60,7 +60,7 @@ initTowerParams x = paramInit go x
   where
     go :: String -> Float -> Tower p PortPair
     go n v = do
-      (psrc, psink) <- channel' (Proxy :: Proxy 2) (Just (ival (ifloat v)))
+      (psrc, psink) <- channel' Nothing (Just (ival (ifloat v)))
       return (PortPair (ParamSource psrc n) (ParamSink psink n))
 
 -- | Shorthand type for a reader for parameter values.
