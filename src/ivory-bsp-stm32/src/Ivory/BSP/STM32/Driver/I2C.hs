@@ -41,8 +41,8 @@ i2cTower :: (PlatformClock p, STM32Signal p)
 i2cTower periph sda scl = do
   towerDepends i2cTowerTypes
   towerModule  i2cTowerTypes
-  reqchan <- channel' (Proxy :: Proxy 2) Nothing
-  reschan <- channel' (Proxy :: Proxy 2) Nothing
+  reqchan <- channel
+  reschan <- channel
   task ((i2cName periph) ++ "PeripheralDriver") $
     i2cPeripheralDriver periph sda scl (snk reqchan) (src reschan)
   return (src reqchan, snk reschan)
@@ -92,6 +92,7 @@ i2cPeripheralDriver periph sda scl req_sink res_source = do
 
   evt_irq <- withUnsafeSignalEvent
                 (stm32Interrupt (i2cIntEvent periph))
+                (Microseconds 15)
                 "event_interrupt"
                 (do debugToggle debugPin1
                     modifyReg (i2cRegCR2 periph)
@@ -100,6 +101,7 @@ i2cPeripheralDriver periph sda scl req_sink res_source = do
 
   err_irq <- withUnsafeSignalEvent
                 (stm32Interrupt (i2cIntError periph))
+                (Microseconds 15)
                 "error_interrupt"
                 (do debugToggle debugPin2
                     modifyReg (i2cRegCR2 periph)

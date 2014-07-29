@@ -68,9 +68,9 @@ uartTowerFlushable :: forall n p
                      , ChannelSource (Stored Uint8)
                      , ChannelSource (Stored ITime))
 uartTowerFlushable uart baud sizeproxy = do
-  (src_ostream, snk_ostream) <- channel' sizeproxy Nothing
-  (src_istream, snk_istream) <- channel' sizeproxy Nothing
-  (src_flush, snk_flush) <- channel' (Proxy :: Proxy 2) Nothing
+  (src_ostream, snk_ostream) <- channel -- XXX DISCARDING SIZE INFO
+  (src_istream, snk_istream) <- channel
+  (src_flush, snk_flush)     <- channel
 
   task (uartName uart ++ "_flushable_driver") $ do
     txcheck_evt <- withChannelEvent snk_flush "flush"
@@ -89,8 +89,8 @@ uartTowerDebuggable :: forall n p
                      , ChannelSource (Stored Uint8))
 uartTowerDebuggable uart baud sizeproxy dbg = do
 
-  (src_ostream, snk_ostream) <- channel' sizeproxy Nothing
-  (src_istream, snk_istream) <- channel' sizeproxy Nothing
+  (src_ostream, snk_ostream) <- channel -- XXX DISCARDING SIZE INFO
+  (src_istream, snk_istream) <- channel
 
   task (uartName uart ++ "_driver") $ do
     txcheck_evt <- withPeriodicEvent txcheck_period
@@ -125,6 +125,7 @@ uartTowerTask uart baud snk_ostream src_istream txcheck_evt dbg = do
 
   interrupt <- withUnsafeSignalEvent
     (stm32Interrupt (uartInterrupt uart))
+    (Microseconds (1000000 `div` baud))
     (uartName uart ++ "_isr")
     (do debug_isr dbg
         setTXEIE uart false

@@ -36,8 +36,8 @@ spiTower :: (PlatformClock p, STM32Signal p)
 spiTower devices = do
   towerDepends spiDriverTypes
   towerModule  spiDriverTypes
-  reqchan <- channel' (Proxy :: Proxy 2) Nothing
-  reschan <- channel' (Proxy :: Proxy 2) Nothing
+  reqchan <- channel
+  reschan <- channel
   task (periphname ++ "PeripheralDriver") $
     spiPeripheralDriver periph devices (snk reqchan) (src reschan)
   return (src reqchan, snk reschan)
@@ -88,6 +88,7 @@ spiPeripheralDriver periph devices req_sink res_source = do
 
   irq <- withUnsafeSignalEvent
                 (stm32Interrupt interrupt)
+                (Microseconds 10) -- XXX PLACEHOLDER: COMPUTE FROM DEVICE BAUDRATES!
                 "interrupt"
                 (do debugToggle debugPin1
                     interrupt_disable interrupt)
