@@ -2,6 +2,7 @@
 IVORY_REPO ?= ../../../ivory
 TOWER_REPO ?= ../../../tower
 BSP_REPO ?= ../../../ivory-tower-stm32
+POSIX_REPO ?= ../../../ivory-tower-posix
 
 default:
 	cabal build
@@ -93,6 +94,7 @@ create-sandbox:
 	cabal sandbox add-source $(BSP_REPO)/tower-freertos-stm32
 	cabal sandbox add-source $(BSP_REPO)/ivory-bsp-stm32
 	cabal sandbox add-source $(BSP_REPO)/ivory-bsp-tests
+	cabal sandbox add-source $(POSIX_REPO)
 	cabal sandbox add-source ../hx-stream/ivory
 	cabal sandbox add-source ../ivory-px4-hw
 	cabal install --dependencies-only

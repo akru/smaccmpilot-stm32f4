@@ -15,7 +15,8 @@ library
                        PX4.Tests.MPU6000,
                        PX4.Tests.MS5611,
                        PX4.Tests.HMC5883L,
-                       PX4.Tests.AllSensors
+                       PX4.Tests.AllSensors,
+                       PX4.Tests.SensorsMonitor.Demux
 
   build-depends:       base >= 4.6,
                        monadLib,
@@ -184,8 +185,11 @@ executable             px4-sensors-monitor-gen
                        ivory-backend-c,
                        ivory-hxstream,
                        ivory-px4-hw,
+                       ivory-px4-tests,
                        ivory-serialize,
-                       ivory-stdlib
+                       ivory-stdlib,
+                       ivory-tower-posix,
+                       tower >= 0.9
 
   default-language:    Haskell2010
   ghc-options:         -Wall
