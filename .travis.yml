@@ -1,4 +1,5 @@
 language: haskell
+sudo: false
 addons:
   apt:
     packages:
